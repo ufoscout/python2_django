@@ -5,11 +5,13 @@ services:
   web:
     image: "python2-django"
     build: .
-    command: python /src/manage.py runserver 0.0.0.0:8000
     volumes:
       - ./src:/src
-    depends_on:
-      - db
+    environment: 
+      # This is used to avoid creation of pyc files at development time
+      PYTHONDONTWRITEBYTECODE: 1
+      #PYTHON_OPTS:
+      WAIT_HOSTS: db:5432
     ports:
       - "8000:8000"
 
@@ -18,4 +20,3 @@ services:
     #hostname: postgres
     ports:
       - "5432:5432"
- 
